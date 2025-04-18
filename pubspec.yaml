@@ -1,0 +1,32 @@
+name: trendbuy
+description: "A shop app"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/banner.jpg
+
+  fonts:
+      - family: samim
+        fonts:
+          - asset: assets/fonts/Samim-FD.ttf
+          - asset: assets/fonts/Samim-Bold-FD.ttf
+            weight: 700
+          
+        
