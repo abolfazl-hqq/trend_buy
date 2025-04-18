@@ -1,6 +1,6 @@
 # trend_buy
 
-An online shop application that provides the trend technology products.
+An online shop application that provides the trend products.
 
 here's a review of the project's ui:
 
