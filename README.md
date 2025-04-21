@@ -4,7 +4,7 @@ An online shop applicaion to buy the new trend products.
 
 here's a review of the ui:
 
-![shopappui.png]
+![App preview](shopappui.png)
 
 (Still being developed)
 
