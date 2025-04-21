@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod/riverpod.dart';
 import '../providers/product_provider.dart';
-import 'package:trendbuy/data/product.dart';
 import 'package:trendbuy/screens/cart_screen.dart';
 import 'package:trendbuy/screens/explore_screen.dart';
 import '../widgets/product_item.dart';

@@ -4,7 +4,6 @@ import 'package:trendbuy/my_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trendbuy/screens/home_screen.dart';
 import 'package:flutter/services.dart';
-import 'package:riverpod/riverpod.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
