@@ -1,16 +1,13 @@
 # trend_buy
 
-A new Flutter project.
+An online shop applicaion to buy the new trend products.
 
-## Getting Started
+here's a review of the ui:
 
-This project is a starting point for a Flutter application.
+![App preview](shopappui.png)
 
-A few resources to get you started if this is your first Flutter project:
+(Still being developed)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+thanks for checking out :)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
