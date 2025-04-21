@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:trendbuy/widgets/cart_item.dart';
-import '../data/product.dart';
 import '../providers/cart_products_provider.dart';
+import '../data/product.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -14,7 +14,7 @@ class CartScreen extends ConsumerWidget {
     double totalPrice =
         cartProducts.fold(0, (sum, product) => sum + product.productPrice);
 
-    return productList.isEmpty == false
+    return cartProducts.isEmpty == false
         ? Column(
             children: [
               Expanded(

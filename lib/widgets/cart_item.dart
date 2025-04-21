@@ -4,18 +4,13 @@ import 'package:trendbuy/data/product.dart';
 import 'package:trendbuy/widgets/quantity_selector.dart';
 import '../providers/cart_products_provider.dart';
 
-class CartItem extends ConsumerStatefulWidget {
+class CartItem extends ConsumerWidget {
   const CartItem({super.key, required this.product});
 
   final Product product;
-
   @override
-  ConsumerState<CartItem> createState() => _CartItemState();
-}
-
-class _CartItemState extends ConsumerState<CartItem> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartProducts = ref.watch(cartProductsProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Container(
@@ -34,7 +29,7 @@ class _CartItemState extends ConsumerState<CartItem> {
                     height: 150,
                     width: 150,
                     child: Image.network(
-                      widget.product.productPicUrl,
+                      product.productPicUrl,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -46,7 +41,7 @@ class _CartItemState extends ConsumerState<CartItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.product.producer,
+                        product.producer,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(
@@ -55,7 +50,7 @@ class _CartItemState extends ConsumerState<CartItem> {
                       SizedBox(
                           width: 140,
                           child: Text(
-                            widget.product.productName,
+                            product.productName,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           )),
@@ -82,7 +77,7 @@ class _CartItemState extends ConsumerState<CartItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$${widget.product.productPrice.toStringAsFixed(2)}',
+                      '\$${product.productPrice.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     QuantitySelector(
@@ -104,11 +99,9 @@ class _CartItemState extends ConsumerState<CartItem> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        setState(() {
-                          cartProducts.removeWhere(
-                            (element) => element.id == widget.product.id,
-                          );
-                        });
+                        cartProducts.removeWhere(
+                          (element) => element.id == product.id,
+                        );
                       },
                       child: TextButton(
                         child: Text(
@@ -118,7 +111,7 @@ class _CartItemState extends ConsumerState<CartItem> {
                         onPressed: () {
                           ref
                               .read(cartProductsProvider.notifier)
-                              .removeProduct(widget.product);
+                              .removeProduct(product);
                         },
                       ),
                     )

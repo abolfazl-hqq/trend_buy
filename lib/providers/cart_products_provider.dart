@@ -1,4 +1,4 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../my_theme.dart';
 import 'package:flutter/material.dart';
 import '../data/product.dart';
@@ -12,7 +12,7 @@ class CartProductsNotifier extends StateNotifier<List<Product>> {
   CartProductsNotifier() : super([]);
 
   void addProduct(Product product, BuildContext context) {
-    final isInCart = state.contains(product);
+    final bool isInCart = state.any((item) => item.id == product.id);
     if (isInCart) {
       showModalBottomSheet(
         context: context,
