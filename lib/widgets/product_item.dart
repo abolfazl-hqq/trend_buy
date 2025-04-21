@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trendbuy/screens/product_details.dart';
+import '../data/product.dart';
 
 class ProductItemWidget extends StatelessWidget {
   final int id;
@@ -23,16 +24,19 @@ class ProductItemWidget extends StatelessWidget {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ProductDetails(
-          productProducer: productProducer,
-          productId: id,
-          productName: productName,
-          productPrice: productPrice,
-          productImage: productPicUrl,
-          productDescription: productDescription,
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ProductDetails(
+              product: Product(
+            id: id,
+            productName: productName,
+            productPicUrl: productPicUrl,
+            productPrice: productPrice,
+            productDescription: productDescription,
+            producer: productProducer,
+          )),
         ),
-      )),
+      ),
       child: Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: Container(

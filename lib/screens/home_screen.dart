@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod/riverpod.dart';
+import '../providers/product_provider.dart';
 import 'package:trendbuy/data/product.dart';
 import 'package:trendbuy/screens/cart_screen.dart';
 import 'package:trendbuy/screens/explore_screen.dart';
@@ -23,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     const HomeScreenWidget(),
     const ExploreScreen(),
-    CartScreen(
-      productList: cartProducts,
-    ),
+    const CartScreen(),
     const Center(child: Text("Profile Page")),
   ];
 
@@ -92,13 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HomeScreenWidget extends StatelessWidget {
+class HomeScreenWidget extends ConsumerWidget {
   const HomeScreenWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final products = ref.watch(productProvider);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Expanded(
@@ -164,7 +166,7 @@ class HomeScreenWidget extends StatelessWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: productList.map(
+                      children: products.map(
                         (product) {
                           return ProductItemWidget(
                             productProducer: product.producer,

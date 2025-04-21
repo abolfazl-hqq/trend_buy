@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trendbuy/screens/home_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:riverpod/riverpod.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {

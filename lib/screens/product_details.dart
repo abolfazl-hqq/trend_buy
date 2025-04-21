@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/data/product.dart';
 import 'package:trendbuy/my_theme.dart';
+import '../providers/cart_products_provider.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails(
-      {super.key,
-      required this.productId,
-      required this.productName,
-      required this.productImage,
-      required this.productPrice,
-      required this.productDescription,
-      required this.productProducer});
+  const ProductDetails({super.key, required this.product});
 
-  final int productId;
-  final String productName;
-  final String productImage;
-  final double productPrice;
-  final String productDescription;
-  final String productProducer;
+  final Product product;
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -67,7 +57,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Expanded(
               flex: 1,
               child: Image.network(
-                widget.productImage,
+                widget.product.productPicUrl,
                 fit: BoxFit.contain,
               ),
             ),
@@ -86,7 +76,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       Row(
                         children: [
                           Text(
-                            widget.productName,
+                            widget.product.productName,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
@@ -110,7 +100,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         height: 4,
                       ),
                       Text(
-                        '\$${widget.productPrice.toStringAsFixed(2)}',
+                        '\$${widget.product.productPrice.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
@@ -120,7 +110,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         height: 16,
                       ),
                       Text(
-                        widget.productDescription,
+                        widget.product.productDescription,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 13, fontWeight: FontWeight.w500),
                       ),
@@ -179,7 +169,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 }
 
-class CustomOutlinedButton extends StatefulWidget {
+class CustomOutlinedButton extends ConsumerStatefulWidget {
   const CustomOutlinedButton({
     super.key,
     required this.widget,
@@ -188,57 +178,18 @@ class CustomOutlinedButton extends StatefulWidget {
   final ProductDetails widget;
 
   @override
-  State<CustomOutlinedButton> createState() => _CustomOutlinedButtonState();
+  ConsumerState<CustomOutlinedButton> createState() =>
+      _CustomOutlinedButtonState();
 }
 
-class _CustomOutlinedButtonState extends State<CustomOutlinedButton> {
+class _CustomOutlinedButtonState extends ConsumerState<CustomOutlinedButton> {
   @override
   Widget build(BuildContext context) {
-    bool exists =
-        cartProducts.any((product) => product.id == widget.widget.productId);
     return OutlinedButton(
         onPressed: () {
-          setState(() {
-            if (exists) {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.white,
-                builder: (context) => const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.remove_circle_outline_rounded,
-                          color: LightTheme.secondaryColor),
-                      SizedBox(width: 10),
-                      Text('Item already exists'),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.white,
-                builder: (context) => const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green),
-                      SizedBox(width: 10),
-                      Text('Item added to cart!'),
-                    ],
-                  ),
-                ),
-              );
-              cartProducts.add(Product(
-                  producer: widget.widget.productProducer,
-                  id: widget.widget.productId,
-                  productName: widget.widget.productName,
-                  productPrice: widget.widget.productPrice,
-                  productPicUrl: widget.widget.productImage,
-                  productDescription: widget.widget.productDescription));
-            }
-          });
+          ref
+              .read(cartProductsProvider.notifier)
+              .addProduct(widget.widget.product, context);
         },
         style: OutlinedButton.styleFrom(
           shape: const RoundedRectangleBorder(

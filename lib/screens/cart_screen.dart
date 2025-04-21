@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:trendbuy/widgets/cart_item.dart';
 import '../data/product.dart';
+import '../providers/cart_products_provider.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({super.key, required this.productList});
-  final List<Product> productList;
+class CartScreen extends ConsumerWidget {
+  const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartProducts = ref.watch(cartProductsProvider);
     double totalPrice =
-        productList.fold(0, (sum, product) => sum + product.productPrice);
+        cartProducts.fold(0, (sum, product) => sum + product.productPrice);
 
     return productList.isEmpty == false
         ? Column(
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: productList.length,
+                  itemCount: cartProducts.length,
                   itemBuilder: (context, index) {
                     return CartItem(
-                        productName: productList[index].productName,
-                        productId: productList[index].id,
-                        productPrice: productList[index].productPrice,
-                        productPicUrl: productList[index].productPicUrl,
-                        productProducer: productList[index].producer);
+                      product: Product(
+                          id: cartProducts[index].id,
+                          producer: cartProducts[index].producer,
+                          productName: cartProducts[index].productName,
+                          productPrice: cartProducts[index].productPrice,
+                          productPicUrl: cartProducts[index].productPicUrl,
+                          productDescription:
+                              cartProducts[index].productDescription),
+                    );
                   },
                 ),
               ),

@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/data/product.dart';
 import 'package:trendbuy/widgets/quantity_selector.dart';
+import '../providers/cart_products_provider.dart';
 
-class CartItem extends StatefulWidget {
-  const CartItem(
-      {super.key,
-      required this.productName,
-      required this.productId,
-      required this.productPrice,
-      required this.productPicUrl,
-      required this.productProducer});
+class CartItem extends ConsumerStatefulWidget {
+  const CartItem({super.key, required this.product});
 
-  final String productName;
-  final int productId;
-  final double productPrice;
-  final String productPicUrl;
-  final String productProducer;
+  final Product product;
 
   @override
-  State<CartItem> createState() => _CartItemState();
+  ConsumerState<CartItem> createState() => _CartItemState();
 }
 
-class _CartItemState extends State<CartItem> {
+class _CartItemState extends ConsumerState<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +34,7 @@ class _CartItemState extends State<CartItem> {
                     height: 150,
                     width: 150,
                     child: Image.network(
-                      widget.productPicUrl,
+                      widget.product.productPicUrl,
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -54,7 +46,7 @@ class _CartItemState extends State<CartItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.productProducer,
+                        widget.product.producer,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(
@@ -63,7 +55,7 @@ class _CartItemState extends State<CartItem> {
                       SizedBox(
                           width: 140,
                           child: Text(
-                            widget.productName,
+                            widget.product.productName,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           )),
@@ -90,7 +82,7 @@ class _CartItemState extends State<CartItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$${widget.productPrice.toStringAsFixed(2)}',
+                      '\$${widget.product.productPrice.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     QuantitySelector(
@@ -114,13 +106,20 @@ class _CartItemState extends State<CartItem> {
                       onPressed: () {
                         setState(() {
                           cartProducts.removeWhere(
-                            (element) => element.id == widget.productId,
+                            (element) => element.id == widget.product.id,
                           );
                         });
                       },
-                      child: Text(
-                        'Remove',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                      child: TextButton(
+                        child: Text(
+                          'Remove',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        onPressed: () {
+                          ref
+                              .read(cartProductsProvider.notifier)
+                              .removeProduct(widget.product);
+                        },
                       ),
                     )
                   ],
