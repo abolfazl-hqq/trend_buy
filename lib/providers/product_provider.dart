@@ -11,7 +11,6 @@ class ProductNotifier extends StateNotifier<List<Product>> {
         'trendbuy-551cc-default-rtdb.firebaseio.com', '/products.json');
     final response = await http.get(url);
     final Map<String, dynamic> productList = json.decode(response.body);
-    print(response.body);
     final List<Product> loadedItems = [];
     for (final item in productList.entries) {
       loadedItems.add(Product(
