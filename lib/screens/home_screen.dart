@@ -98,92 +98,112 @@ class HomeScreenWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final products = ref.watch(productProvider);
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Expanded(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/banner.jpg',
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: 180,
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Shop by category',
-                          style: Theme.of(context).textTheme.bodyMedium,
+    final products = ref.watch(productProvider.notifier).fetchProducts();
+    return FutureBuilder(
+      future: products,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        }
+        if (snapshot.data!.isEmpty) {
+          return const Center(
+            child: Text("There are no products to show at the moment"),
+          );
+        }
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Expanded(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/images/banner.jpg',
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: 180,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Shop by category',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              'See All',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            )
+                          ],
                         ),
-                        Text(
-                          'See All',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: CategorySliderWidget()),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Curated for you',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: CategorySliderWidget()),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Curated for you',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              'See All',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            )
+                          ],
                         ),
-                        Text(
-                          'See All',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: snapshot.data!.map(
+                            (product) {
+                              return ProductItemWidget(
+                                productProducer: product.producer,
+                                id: product.id,
+                                productName: product.productName,
+                                productPicUrl: product.productPicUrl,
+                                productPrice: product.productPrice,
+                                productDescription: product.productDescription,
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: products.map(
-                        (product) {
-                          return ProductItemWidget(
-                            productProducer: product.producer,
-                            id: product.id,
-                            productName: product.productName,
-                            productPicUrl: product.productPicUrl,
-                            productPrice: product.productPrice,
-                            productDescription: product.productDescription,
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

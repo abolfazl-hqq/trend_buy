@@ -3,7 +3,7 @@ import 'package:trendbuy/screens/product_details.dart';
 import '../data/product.dart';
 
 class ProductItemWidget extends StatelessWidget {
-  final int id;
+  final String id;
   final String productName;
   final String productPicUrl;
   final double productPrice;
