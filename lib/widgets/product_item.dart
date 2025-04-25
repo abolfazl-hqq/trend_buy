@@ -3,20 +3,10 @@ import 'package:trendbuy/screens/product_details.dart';
 import '../data/product.dart';
 
 class ProductItemWidget extends StatelessWidget {
-  final String id;
-  final String productName;
-  final String productPicUrl;
-  final double productPrice;
-  final String productDescription;
-  final String productProducer;
+  final Product product;
   const ProductItemWidget({
     super.key,
-    required this.id,
-    required this.productName,
-    required this.productPicUrl,
-    required this.productPrice,
-    required this.productDescription,
-    required this.productProducer,
+    required this.product,
   });
 
   @override
@@ -28,12 +18,12 @@ class ProductItemWidget extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => ProductDetails(
               product: Product(
-            id: id,
-            productName: productName,
-            productPicUrl: productPicUrl,
-            productPrice: productPrice,
-            productDescription: productDescription,
-            producer: productProducer,
+            id: product.id,
+            productName: product.productName,
+            productPicUrl: product.productPicUrl,
+            productPrice: product.productPrice,
+            productDescription: product.productDescription,
+            producer: product.producer,
           )),
         ),
       ),
@@ -48,7 +38,15 @@ class ProductItemWidget extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child: Image.network(fit: BoxFit.contain, productPicUrl),
+                child: Image.network(
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Center(
+                          child: Icon(
+                            Icons.error,
+                            size: 50,
+                          ),
+                        ),
+                    product.productPicUrl),
               ),
               const SizedBox(
                 height: 8,
@@ -63,7 +61,7 @@ class ProductItemWidget extends StatelessWidget {
                           SizedBox(
                             width: 160,
                             child: Text(
-                              productName,
+                              product.productName,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme
@@ -74,7 +72,7 @@ class ProductItemWidget extends StatelessWidget {
                           const SizedBox(
                             height: 8,
                           ),
-                          Text('\$$productPrice',
+                          Text('\$${product.productPrice}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!

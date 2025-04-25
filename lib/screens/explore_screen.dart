@@ -29,12 +29,7 @@ class ExploreScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final product = products[index];
               return ProductItemWidget(
-                productProducer: product.producer,
-                id: product.id,
-                productName: product.productName,
-                productPicUrl: product.productPicUrl,
-                productPrice: product.productPrice,
-                productDescription: product.productDescription,
+                product: product,
               );
             },
           ),

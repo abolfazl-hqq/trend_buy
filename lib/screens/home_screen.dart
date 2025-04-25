@@ -218,12 +218,7 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                           children: snapshot.data!.map(
                             (product) {
                               return ProductItemWidget(
-                                productProducer: product.producer,
-                                id: product.id,
-                                productName: product.productName,
-                                productPicUrl: product.productPicUrl,
-                                productPrice: product.productPrice,
-                                productDescription: product.productDescription,
+                                product: product,
                               );
                             },
                           ).toList(),
