@@ -7,6 +7,7 @@ import 'package:trendbuy/screens/explore_screen.dart';
 import '../widgets/product_item.dart';
 import '../widgets/category_slider.dart';
 import '../data/product.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -100,74 +101,94 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class HomeScreenWidget extends StatelessWidget {
+class HomeScreenWidget extends ConsumerStatefulWidget {
   const HomeScreenWidget({super.key, required this.products});
   final Future<List<Product>> products;
+
+  @override
+  ConsumerState<HomeScreenWidget> createState() => _HomeScreenWidgetState();
+}
+
+class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
+  late Future<List<Product>> _productsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _productsFuture = widget.products;
+  }
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _productsFuture = widget.products;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/images/banner.jpg',
-            fit: BoxFit.fill,
-            width: double.infinity,
-            height: 180,
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Shop by category',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Text(
-                        'See All',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      )
-                    ],
+    return LiquidPullToRefresh(
+      onRefresh: _handleRefresh,
+      color: LightTheme.secondaryColor,
+      backgroundColor: Colors.white,
+      animSpeedFactor: 2,
+      showChildOpacityTransition: false,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/banner.jpg',
+              fit: BoxFit.fill,
+              width: double.infinity,
+              height: 180,
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Shop by category',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          'See All',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Padding(
+                  const SizedBox(height: 16),
+                  const Padding(
                     padding: EdgeInsets.only(left: 8.0),
-                    child: CategorySliderWidget()),
-                const SizedBox(
-                  height: 32,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Curated for you',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Text(
-                        'See All',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      )
-                    ],
+                    child: CategorySliderWidget(),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                FutureBuilder(
-                    future: products,
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Curated for you',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          'See All',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  FutureBuilder(
+                    future: _productsFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SizedBox(
@@ -208,11 +229,13 @@ class HomeScreenWidget extends StatelessWidget {
                           ).toList(),
                         ),
                       );
-                    })
-              ],
+                    },
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
