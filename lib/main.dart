@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:trendbuy/screens/auth_screen.dart';
 import 'package:trendbuy/screens/home_screen.dart';
 import 'package:flutter/services.dart';
 
@@ -37,7 +38,7 @@ class MainApp extends StatelessWidget {
               onSecondary: Colors.white,
               primary: LightTheme.primaryColor,
               secondary: LightTheme.secondaryColor)),
-      home: const HomeScreen(),
+      home: const AuthScreen(),
     );
   }
 }
