@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -104,13 +105,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.logout_rounded),
-                        title: Text(
-                          'Logout',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                              height: 100,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primary,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25),
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  const Text('Are you sure?'),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'Cancel',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(fontSize: 14),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 32,
+                                      ),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                                  Theme.of(context)
+                                                      .colorScheme
+                                                      .error),
+                                        ),
+                                        onPressed: () {
+                                          FirebaseAuth.instance.signOut();
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'Logout',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        child: ListTile(
+                          leading: const Icon(Icons.logout_rounded),
+                          title: Text(
+                            'Logout',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios),
                         ),
-                        trailing: const Icon(Icons.arrow_forward_ios),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
