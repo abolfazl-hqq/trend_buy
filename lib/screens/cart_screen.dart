@@ -14,78 +14,101 @@ class CartScreen extends ConsumerWidget {
     double totalPrice =
         cartProducts.fold(0, (sum, product) => sum + product.productPrice);
 
-    return cartProducts.isEmpty == false
-        ? Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: cartProducts.length,
-                  itemBuilder: (context, index) {
-                    return CartItem(
-                      product: Product(
-                          id: cartProducts[index].id,
-                          producer: cartProducts[index].producer,
-                          productName: cartProducts[index].productName,
-                          productPrice: cartProducts[index].productPrice,
-                          productPicUrl: cartProducts[index].productPicUrl,
-                          productDescription:
-                              cartProducts[index].productDescription),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Order Total',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontSize: 18),
-                        ),
-                        Text(
-                          "\$${totalPrice.toStringAsFixed(2)}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontSize: 18),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          minimumSize: const WidgetStatePropertyAll(
-                              Size(double.infinity, 50)),
-                          backgroundColor: const WidgetStatePropertyAll(
-                              LightTheme.secondaryColor)),
-                      child: Text(
-                        'Checkout',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Theme.of(context).colorScheme.onSecondary),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(
+          Icons.shopify_rounded,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Icon(
+              Icons.archive_outlined,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           )
-        : const Center(
-            child: Text('your cart is empty'),
-          );
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      body: cartProducts.isEmpty == false
+          ? Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cartProducts.length,
+                    itemBuilder: (context, index) {
+                      return CartItem(
+                        product: Product(
+                            id: cartProducts[index].id,
+                            producer: cartProducts[index].producer,
+                            productName: cartProducts[index].productName,
+                            productPrice: cartProducts[index].productPrice,
+                            productPicUrl: cartProducts[index].productPicUrl,
+                            productDescription:
+                                cartProducts[index].productDescription),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Order Total',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 18),
+                          ),
+                          Text(
+                            "\$${totalPrice.toStringAsFixed(2)}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 18),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            minimumSize: const WidgetStatePropertyAll(
+                                Size(double.infinity, 50)),
+                            backgroundColor: const WidgetStatePropertyAll(
+                                LightTheme.secondaryColor)),
+                        child: Text(
+                          'Checkout',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
+          : const Center(
+              child: Text('your cart is empty'),
+            ),
+    );
   }
 }

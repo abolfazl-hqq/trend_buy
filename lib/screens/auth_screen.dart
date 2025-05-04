@@ -160,10 +160,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             alignment: Alignment.centerRight,
                             child: isLogin
                                 ? TextButton(
-                                    child: Text(
+                                    child: const Text(
                                       'Forgot password?',
                                       style: TextStyle(
-                                          color: Colors.blue.shade900,
+                                          color: LightTheme.secondaryTextColor,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     onPressed: () {},
@@ -230,7 +230,8 @@ class _AuthScreenState extends State<AuthScreen> {
                             ? "Don't have an account? "
                             : "Already have an account?",
                         style: const TextStyle(
-                            color: Colors.black54, fontSize: 14)),
+                            color: LightTheme.secondaryTextColor,
+                            fontSize: 14)),
                     TextButton(
                       onPressed: () {
                         setState(() {
@@ -239,7 +240,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       },
                       child: Text(isLogin ? 'Sign up' : 'Log in',
                           style: const TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold)),
+                              color: LightTheme.primaryTextColor,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
