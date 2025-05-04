@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trendbuy/firebase_options.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trendbuy/screens/auth_screen.dart';
 import 'package:trendbuy/screens/home_screen.dart';
 import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -18,6 +23,7 @@ class MainApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: LightTheme.primaryColor,
+      statusBarColor: LightTheme.primaryColor,
     ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -38,7 +44,16 @@ class MainApp extends StatelessWidget {
               onSecondary: Colors.white,
               primary: LightTheme.primaryColor,
               secondary: LightTheme.secondaryColor)),
-      home: const AuthScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          } else {
+            return const AuthScreen();
+          }
+        },
+      ),
     );
   }
 }

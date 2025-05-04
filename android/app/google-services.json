@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1060998802575",
+    "firebase_url": "https://trendbuy-551cc-default-rtdb.firebaseio.com",
+    "project_id": "trendbuy-551cc",
+    "storage_bucket": "trendbuy-551cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060998802575:android:7d4933cfaf89bbc4ad94fa",
+        "android_client_info": {
+          "package_name": "com.example.trend_buy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060998802575-vq45vj31c63klfa9p2d66msnipbjvvvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnSQELo0d1t9F8U6L5WkI0RTYGTLzqKnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060998802575-vq45vj31c63klfa9p2d66msnipbjvvvg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1060998802575-0thdepv931ggk2hpblr3fgjs03cosgj4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trendBuy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
