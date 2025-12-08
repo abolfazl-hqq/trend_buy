@@ -51,121 +51,123 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        body: Expanded(
-            child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Image.network(
-                widget.product.productPicUrl,
-                fit: BoxFit.contain,
+        body: SafeArea(
+          child: Expanded(
+              child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Image.network(
+                  widget.product.productPicUrl,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            widget.product.productName,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            icon: Icon(
-                              isLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border_rounded,
-                              color: isLiked ? Colors.red : Colors.black,
-                              size: 25,
-                            ),
-                            onPressed: likeButton,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        '\$${widget.product.productPrice.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontSize: 20),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        widget.product.productDescription,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: 13, fontWeight: FontWeight.w500),
-                      ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4.0),
-                        child: Row(
+              const SizedBox(
+                height: 12,
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                    height: 55,
-                                    child:
-                                        CustomOutlinedButton(widget: widget))),
-                            const SizedBox(
-                              width: 8,
+                            Text(
+                              widget.product.productName,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                height: 55,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondary, // Button color
-                                    foregroundColor: Colors.white, // Text color
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24, vertical: 16),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius
-                                          .zero, // Makes it rectangular
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'Buy now',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                ),
+                            const Spacer(),
+                            IconButton(
+                              icon: Icon(
+                                isLiked
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_rounded,
+                                color: isLiked ? Colors.red : Colors.black,
+                                size: 25,
                               ),
+                              onPressed: likeButton,
                             ),
                           ],
                         ),
-                      )
-                    ],
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          '\$${widget.product.productPrice.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                              fontSize: 20),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          widget.product.productDescription,
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontSize: 13, fontWeight: FontWeight.w500),
+                        ),
+                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  flex: 1,
+                                  child: SizedBox(
+                                      height: 55,
+                                      child:
+                                          CustomOutlinedButton(widget: widget))),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  height: 55,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary, // Button color
+                                      foregroundColor: Colors.white, // Text color
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 16),
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius
+                                            .zero, // Makes it rectangular
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Buy now',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
-        )));
+              )
+            ],
+          )),
+        ));
   }
 }
 

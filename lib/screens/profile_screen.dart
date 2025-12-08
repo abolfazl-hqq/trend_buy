@@ -28,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
-                .copyWith(fontSize: 18, color: Colors.white),
+                .copyWith(fontSize: 24, color: Colors.white),
           ),
         ),
         body: SafeArea(
@@ -109,62 +109,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           showModalBottomSheet(
                             context: context,
-                            builder: (context) => Container(
-                              height: 100,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25),
+                            builder: (context) => SafeArea(
+                              child: Container(
+                                height: 100,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(25),
+                                    topRight: Radius.circular(25),
+                                  ),
                                 ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Text('Are you sure?'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          'Cancel',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(fontSize: 14),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Text('Are you sure?'),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            'Cancel',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(fontSize: 14),
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 32,
-                                      ),
-                                      ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              WidgetStatePropertyAll(
-                                                  Theme.of(context)
-                                                      .colorScheme
-                                                      .error),
+                                        const SizedBox(
+                                          width: 32,
                                         ),
-                                        onPressed: () {
-                                          FirebaseAuth.instance.signOut();
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          'Logout',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(color: Colors.white),
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStatePropertyAll(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .error),
+                                          ),
+                                          onPressed: () {
+                                            FirebaseAuth.instance.signOut();
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            'Logout',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(color: Colors.white),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );

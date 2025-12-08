@@ -18,8 +18,17 @@ class CategorySliderWidget extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.grey.shade200,
+                  foregroundImage: categoryImageUrls[item] != null
+                      ? NetworkImage(categoryImageUrls[item]!)
+                      : null,
                   minRadius: 35,
                   maxRadius: 35,
+                  child: categoryImageUrls[item] == null
+                      ? Icon(
+                          Icons.image_not_supported_outlined,
+                          color: Colors.grey.shade600,
+                        )
+                      : null,
                 ),
                 const SizedBox(height: 8),
                 Text(

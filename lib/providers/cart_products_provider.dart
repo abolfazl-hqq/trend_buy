@@ -19,13 +19,15 @@ class CartProductsNotifier extends StateNotifier<List<Product>> {
         backgroundColor: Colors.white,
         builder: (context) => const Padding(
           padding: EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Icon(Icons.remove_circle_outline_rounded,
-                  color: LightTheme.secondaryColor),
-              SizedBox(width: 10),
-              Text('Item already exists'),
-            ],
+          child: SafeArea(
+            child: Row(
+              children: [
+                Icon(Icons.remove_circle_outline_rounded,
+                    color: LightTheme.secondaryColor),
+                SizedBox(width: 10),
+                Text('Item already exists'),
+              ],
+            ),
           ),
         ),
       );
@@ -36,12 +38,14 @@ class CartProductsNotifier extends StateNotifier<List<Product>> {
         backgroundColor: Colors.white,
         builder: (context) => const Padding(
           padding: EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Icon(Icons.check_circle, color: Colors.green),
-              SizedBox(width: 10),
-              Text('Item added to cart!'),
-            ],
+          child: SafeArea(
+            child: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.green),
+                SizedBox(width: 10),
+                Text('Item added to cart!'),
+              ],
+            ),
           ),
         ),
       );

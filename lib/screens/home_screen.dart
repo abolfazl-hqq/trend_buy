@@ -96,11 +96,26 @@ class HomeScreenWidget extends ConsumerStatefulWidget {
 
 class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
   late Future<List<Product>> _productsFuture;
+  final PageController _bannerController = PageController();
+  final List<String> _bannerImages = const [
+    'assets/images/banner.jpg',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDhzcqCGKF6aDVwvBobBEN7V5hbrpqSocsgw&s',
+    'https://www.shutterstock.com/image-vector/banner-announcing-mega-discount-half-260nw-1962489325.jpg',
+    'https://t4.ftcdn.net/jpg/02/49/50/15/360_F_249501541_XmWdfAfUbWAvGxBwAM0ba2aYT36ntlpH.jpg',
+    'https://static.vecteezy.com/system/resources/thumbnails/004/299/835/small/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg',
+  ];
+  int _currentBanner = 0;
 
   @override
   void initState() {
     super.initState();
     _productsFuture = widget.products;
+  }
+
+  @override
+  void dispose() {
+    _bannerController.dispose();
+    super.dispose();
   }
 
   Future<void> _handleRefresh() async {
@@ -139,11 +154,57 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              Image.asset(
-                'assets/images/banner.jpg',
-                fit: BoxFit.fill,
-                width: double.infinity,
-                height: 180,
+              Column(
+                children: [
+                  SizedBox(
+                    height: 180,
+                    child: PageView.builder(
+                      controller: _bannerController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          _currentBanner = index;
+                        });
+                      },
+                      itemCount: _bannerImages.length,
+                      itemBuilder: (context, index) {
+                        final image = _bannerImages[index];
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: image.startsWith('assets/')
+                              ? Image.asset(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                )
+                              : Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      _bannerImages.length,
+                      (index) => AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 8,
+                        width: _currentBanner == index ? 18 : 8,
+                        decoration: BoxDecoration(
+                          color: _currentBanner == index
+                              ? LightTheme.secondaryColor
+                              : Colors.grey.shade400,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
               Padding(

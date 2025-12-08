@@ -31,12 +31,15 @@ class MainApp extends StatelessWidget {
           textTheme: const TextTheme(
               bodySmall: TextStyle(
                   color: LightTheme.secondaryTextColor,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold),
               bodyMedium: TextStyle(
                   color: LightTheme.primaryTextColor,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold),
               bodyLarge: TextStyle(
                   color: LightTheme.primaryTextColor,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold)),
           fontFamily: GoogleFonts.poppins().fontFamily,
           colorScheme: const ColorScheme.light(
