@@ -106,8 +106,25 @@ class CartScreen extends ConsumerWidget {
                 )
               ],
             )
-          : const Center(
-              child: Text('your cart is empty'),
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 180,
+                    height: 180,
+                    child: Image.asset(
+                      'assets/images/vecteezy_empty-shopping-cart-concept-flat-design-icon-illustration_67565912.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Your cart is empty',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
     );
   }

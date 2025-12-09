@@ -16,6 +16,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
   var _email = '';
   var _password = '';
+  var _fullName = '';
 
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -48,8 +49,11 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     } else {
       try {
-        await _firebase.createUserWithEmailAndPassword(
+        final userCred = await _firebase.createUserWithEmailAndPassword(
             email: _email, password: _password);
+        if (_fullName.trim().isNotEmpty) {
+          await userCred.user?.updateDisplayName(_fullName.trim());
+        }
         setState(() {
           isLogin = true;
         });
@@ -113,9 +117,37 @@ class _AuthScreenState extends State<AuthScreen> {
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 40),
+                        if (!isLogin)
+                          Column(
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Full name',
+                                  hintStyle:
+                                      const TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 16),
+                                ),
+                                textCapitalization: TextCapitalization.words,
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.trim().length < 3) {
+                                    return "Please enter your full name";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => _fullName = value!.trim(),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          ),
                         TextFormField(
                           decoration: InputDecoration(
                             hintText: 'Email address',
+                            hintStyle: const TextStyle(color: Colors.grey),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -138,6 +170,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextFormField(
                           obscureText: true,
                           decoration: InputDecoration(
+                            hintStyle: const TextStyle(color: Colors.grey),
                             hintText:
                                 isLogin ? 'Password' : 'create a password',
                             border: OutlineInputBorder(

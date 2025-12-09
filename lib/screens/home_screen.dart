@@ -99,10 +99,10 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
   final PageController _bannerController = PageController();
   final List<String> _bannerImages = const [
     'assets/images/banner.jpg',
+    'https://static.vecteezy.com/system/resources/thumbnails/004/299/835/small/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDhzcqCGKF6aDVwvBobBEN7V5hbrpqSocsgw&s',
     'https://www.shutterstock.com/image-vector/banner-announcing-mega-discount-half-260nw-1962489325.jpg',
-    'https://t4.ftcdn.net/jpg/02/49/50/15/360_F_249501541_XmWdfAfUbWAvGxBwAM0ba2aYT36ntlpH.jpg',
-    'https://static.vecteezy.com/system/resources/thumbnails/004/299/835/small/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg',
+    'https://t4.ftcdn.net/jpg/02/49/50/15/360_F_249501541_XmWdfAfUbWAvGxBwAM0ba2aYT36ntlpH.jpg'
   ];
   int _currentBanner = 0;
 

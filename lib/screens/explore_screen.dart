@@ -21,7 +21,10 @@ class ExploreScreen extends ConsumerWidget {
               hintText: 'Search...',
               hintStyle: Theme.of(context).textTheme.bodySmall,
               filled: true,
-              border: InputBorder.none,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
               fillColor: Colors.grey[200],
               icon: Icon(Icons.search_rounded,
                   color: Theme.of(context).colorScheme.onPrimary),

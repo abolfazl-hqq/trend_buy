@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'personal_info_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,6 +11,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool value = false;
+  final User? _currentUser = FirebaseAuth.instance.currentUser;
 
   void onChanged(bool newValue) {
     setState(() {
@@ -42,19 +44,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ListTile(
-                        leading: const CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.grey,
+                        leading: CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.grey.shade300,
+                          foregroundImage: _currentUser?.photoURL != null
+                              ? NetworkImage(_currentUser!.photoURL!)
+                              : null,
+                          child: _currentUser?.photoURL == null
+                              ? Icon(Icons.person,
+                                  size: 56, color: Colors.grey.shade700)
+                              : null,
                         ),
                         title: Text(
-                          'Abolfazl Haghighi',
+                          _currentUser?.displayName ?? 'Profile' ,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
                               .copyWith(color: Colors.white),
                         ),
                         subtitle: Text(
-                          'haghighikia32@gmail.com',
+                          _currentUser?.email ?? 'Not signed in',
                           style: Theme.of(context).textTheme.bodySmall!,
                         ),
                       ),
@@ -88,6 +97,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const PersonalInfoScreen()));
+                        },
                       ),
                       ListTile(
                         leading: const Icon(Icons.security_rounded),
