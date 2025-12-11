@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
 import 'package:trendbuy/screens/profile_screen.dart';
+import 'package:trendbuy/screens/category_screen.dart';
 import '../providers/product_provider.dart';
 import 'package:trendbuy/screens/cart_screen.dart';
 import 'package:trendbuy/screens/explore_screen.dart';
@@ -35,6 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<Widget> get _pages => [
         HomeScreenWidget(products: _loadedProducts),
         const ExploreScreen(),
+        const CategoryScreen(),
         const CartScreen(),
         const ProfileScreen(),
       ];
@@ -63,6 +65,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: Icon(Icons.search),
               ),
               label: 'Explore',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: Icon(Icons.category_rounded),
+              ),
+              label: 'Categories',
             ),
             BottomNavigationBarItem(
               icon: Padding(

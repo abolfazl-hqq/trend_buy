@@ -84,6 +84,22 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   .bodyLarge!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                widget.product.category,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(fontSize: 12),
+                              ),
+                            ),
                             const Spacer(),
                             IconButton(
                               icon: Icon(

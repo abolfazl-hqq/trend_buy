@@ -28,6 +28,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: LightTheme.primaryColor,
+              statusBarIconBrightness: Brightness.light,
+              systemNavigationBarColor: LightTheme.primaryColor,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
+          ),
           textTheme: const TextTheme(
               bodySmall: TextStyle(
                   color: LightTheme.secondaryTextColor,

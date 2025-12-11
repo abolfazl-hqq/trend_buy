@@ -46,7 +46,8 @@ class CartScreen extends ConsumerWidget {
                             productPrice: cartProducts[index].productPrice,
                             productPicUrl: cartProducts[index].productPicUrl,
                             productDescription:
-                                cartProducts[index].productDescription),
+                                cartProducts[index].productDescription,
+                            category: cartProducts[index].category),
                       );
                     },
                   ),

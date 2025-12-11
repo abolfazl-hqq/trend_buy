@@ -24,6 +24,7 @@ class ProductItemWidget extends StatelessWidget {
             productPrice: product.productPrice,
             productDescription: product.productDescription,
             producer: product.producer,
+            category: product.category,
           )),
         ),
       ),

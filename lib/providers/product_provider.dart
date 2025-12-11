@@ -10,7 +10,6 @@ class ProductNotifier extends StateNotifier<List<Product>> {
     final url = Uri.https(
         'trendbuy-551cc-default-rtdb.firebaseio.com', '/products.json');
     final response = await http.get(url);
-    print(response.body);
     final Map<String, dynamic> productList = json.decode(response.body);
     final List<Product> loadedItems = [];
     for (final item in productList.entries) {
@@ -18,9 +17,10 @@ class ProductNotifier extends StateNotifier<List<Product>> {
           id: item.key,
           producer: item.value['producer'],
           productName: item.value['name'],
-          productPrice: item.value['price'],
+          productPrice: (item.value['price'] as num).toDouble(),
           productPicUrl: item.value['pictureurl'],
-          productDescription: item.value['description']));
+          productDescription: item.value['description'],
+          category: item.value['category'] ?? 'Other'));
     }
     state = loadedItems;
     return state;
