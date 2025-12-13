@@ -3,22 +3,84 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/widgets/category_slider.dart';
 import 'package:trendbuy/widgets/product_item.dart';
 import '../providers/product_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class ExploreScreen extends ConsumerWidget {
   const ExploreScreen({super.key, this.filterCategory});
 
   final String? filterCategory;
 
+  // Map product category to standardized category (same as category_screen)
+  String _mapToStandardCategory(String productCategory) {
+    final category = productCategory.toLowerCase().trim();
+    
+    // Smartphone mappings
+    if (category.contains('phone') || 
+        category.contains('smartphone') || 
+        category.contains('mobile') ||
+        category == 'phone') {
+      return 'smartphone';
+    }
+    
+    // Laptop mappings
+    if (category.contains('laptop') || 
+        category.contains('notebook') ||
+        category.contains('computer')) {
+      return 'laptop';
+    }
+    
+    // Monitor mappings
+    if (category.contains('monitor') || 
+        category.contains('display') ||
+        category.contains('screen')) {
+      return 'monitor';
+    }
+    
+    // Television mappings
+    if (category.contains('tv') || 
+        category.contains('television') ||
+        category.contains('smart tv')) {
+      return 'television';
+    }
+    
+    // Tablet mappings
+    if (category.contains('tablet') || 
+        category.contains('ipad')) {
+      return 'tablet';
+    }
+    
+    // Printer mappings
+    if (category.contains('printer') || 
+        category.contains('print')) {
+      return 'printer';
+    }
+    
+    // Accessory mappings
+    if (category.contains('accessory') || 
+        category.contains('headphone') ||
+        category.contains('headset') ||
+        category.contains('earphone') ||
+        category.contains('cable') ||
+        category.contains('charger') ||
+        category.contains('case') ||
+        category.contains('watch') ||
+        category.contains('smartwatch')) {
+      return 'accessory';
+    }
+    
+    // Default to etc for anything else
+    return 'etc';
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     TextEditingController _searchController = TextEditingController();
     final allProducts = ref.read(productProvider);
     final products = filterCategory == null
         ? allProducts
         : allProducts
-            .where((p) =>
-                p.category.toLowerCase() ==
-                filterCategory!.toLowerCase().trim())
+            .where((p) => _mapToStandardCategory(p.category) == filterCategory)
             .toList();
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +88,7 @@ class ExploreScreen extends ConsumerWidget {
           controller: _searchController,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: l10n?.translate('search') ?? 'Search',
             hintStyle: Theme.of(context).textTheme.bodySmall,
             filled: true,
             border: OutlineInputBorder(
@@ -57,18 +119,11 @@ class ExploreScreen extends ConsumerWidget {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(12),
+                      Chip(
+                        label: Text(
+                          '${l10n?.translate('categories') ?? 'Category'}: ${l10n?.translate(filterCategory!) ?? filterCategory!}',
                         ),
-                        child: Text(
-                          filterCategory.toString(),
-                          style: Theme.of(context)
-                              .textTheme.bodyMedium!
-                        ),
+                        backgroundColor: Colors.grey.shade200,
                       ),
                     ],
                   ),
@@ -76,7 +131,7 @@ class ExploreScreen extends ConsumerWidget {
               if (filterCategory != null) const SizedBox(height: 8),
               Expanded(
                 child: products.isEmpty
-                    ? const Center(child: Text('No products found'))
+                    ? Center(child: Text(l10n?.translate('noProductsFound') ?? 'No products found'))
                     : GridView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         itemCount: products.length,

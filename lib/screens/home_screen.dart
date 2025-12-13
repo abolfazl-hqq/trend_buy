@@ -10,6 +10,7 @@ import '../widgets/product_item.dart';
 import '../widgets/category_slider.dart';
 import '../data/product.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import '../l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -43,6 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
@@ -51,43 +53,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           unselectedItemColor: Colors.grey,
           selectedFontSize: 12,
           showUnselectedLabels: true,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Padding(
+              icon: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(Icons.home_rounded),
               ),
-              label: 'Home',
+              label: l10n?.translate('home') ?? 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Padding(
+              icon: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(Icons.search),
               ),
-              label: 'Explore',
+              label: l10n?.translate('explore') ?? 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: Padding(
+              icon: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(Icons.category_rounded),
               ),
-              label: 'Categories',
+              label: l10n?.translate('categories') ?? 'Categories',
             ),
             BottomNavigationBarItem(
-              icon: Padding(
+              icon: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(
                   Icons.shopping_cart,
                 ),
               ),
-              label: 'Cart',
+              label: l10n?.translate('cart') ?? 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: Padding(
+              icon: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
                 child: Icon(Icons.person),
               ),
-              label: 'Profile',
+              label: l10n?.translate('profile') ?? 'Profile',
             ),
           ],
         ),
@@ -135,6 +137,7 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -226,11 +229,11 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Shop by category',
+                            l10n?.translate('shopByCategory') ?? 'Shop by category',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            'See All',
+                            l10n?.translate('seeAll') ?? 'See All',
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
@@ -248,11 +251,11 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Curated for you',
+                            l10n?.translate('curatedForYou') ?? 'Curated for you',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            'See All',
+                            l10n?.translate('seeAll') ?? 'See All',
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
@@ -280,9 +283,9 @@ class _HomeScreenWidgetState extends ConsumerState<HomeScreenWidget> {
                           );
                         }
                         if (snapshot.data!.isEmpty) {
-                          return const Center(
+                          return Center(
                             child: Text(
-                                "There are no products to show at the moment"),
+                                l10n?.translate('noProductsToShow') ?? "There are no products to show at the moment"),
                           );
                         }
                         return SingleChildScrollView(

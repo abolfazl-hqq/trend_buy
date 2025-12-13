@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trendbuy/l10n/app_localizations.dart';
 import 'personal_info_screen.dart';
+import 'language_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool value = false;
   final User? _currentUser = FirebaseAuth.instance.currentUser;
 
@@ -21,12 +24,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
           title: Text(
-            'Profile',
+            l10n.translate('profile'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -56,14 +60,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               : null,
                         ),
                         title: Text(
-                          _currentUser?.displayName ?? 'Profile' ,
+                          _currentUser?.displayName ?? l10n.translate('profile'),
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
                               .copyWith(color: Colors.white),
                         ),
                         subtitle: Text(
-                          _currentUser?.email ?? 'Not signed in',
+                          _currentUser?.email ?? l10n.translate('notSignedIn'),
                           style: Theme.of(context).textTheme.bodySmall!,
                         ),
                       ),
@@ -87,13 +91,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Account Settings',
+                        child: Text(l10n.translate('accountSettings'),
                             style: Theme.of(context).textTheme.bodySmall),
                       ),
                       ListTile(
                         leading: const Icon(Icons.person),
                         title: Text(
-                          'Personal Information',
+                          l10n.translate('personalInformation'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
@@ -105,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ListTile(
                         leading: const Icon(Icons.security_rounded),
                         title: Text(
-                          'Password & Security',
+                          l10n.translate('passwordSecurity'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
@@ -113,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ListTile(
                         leading: const Icon(Icons.notifications),
                         title: Text(
-                          'Notification Settings',
+                          l10n.translate('notificationSettings'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
@@ -137,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const Text('Are you sure?'),
+                                    Text(l10n.translate('areYouSure')),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -146,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             Navigator.pop(context);
                                           },
                                           child: Text(
-                                            'Cancel',
+                                            l10n.translate('cancel'),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall!
@@ -169,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             Navigator.pop(context);
                                           },
                                           child: Text(
-                                            'Logout',
+                                            l10n.translate('logout'),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge!
@@ -187,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: ListTile(
                           leading: const Icon(Icons.logout_rounded),
                           title: Text(
-                            'Logout',
+                            l10n.translate('logout'),
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           trailing: const Icon(Icons.arrow_forward_ios),
@@ -195,21 +199,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Preferences',
+                        child: Text(l10n.translate('preferences'),
                             style: Theme.of(context).textTheme.bodySmall),
                       ),
                       ListTile(
                         leading: const Icon(Icons.language_rounded),
                         title: Text(
-                          'Language',
+                          l10n.translate('language'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: const Icon(Icons.arrow_forward_ios),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const LanguageScreen()));
+                        },
                       ),
                       ListTile(
                         leading: const Icon(Icons.dark_mode_rounded),
                         title: Text(
-                          'Dark mode',
+                          l10n.translate('darkMode'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         trailing: Switch.adaptive(

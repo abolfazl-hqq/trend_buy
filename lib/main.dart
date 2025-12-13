@@ -8,25 +8,58 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:trendbuy/screens/auth_screen.dart';
 import 'package:trendbuy/screens/home_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:trendbuy/l10n/app_localizations.dart';
+import 'package:trendbuy/providers/language_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MainApp()));
+  // Load language preference before starting app
+  final prefs = await SharedPreferences.getInstance();
+  final languageCode = prefs.getString('language') ?? 'en';
+  final initialLanguage = languageCode == 'fa' 
+      ? AppLanguage.persian 
+      : AppLanguage.english;
+  runApp(ProviderScope(
+    overrides: [
+      languageProvider.overrideWith((ref) => LanguageNotifier(initialLanguage)),
+    ],
+    child: const MainApp(),
+  ));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch language provider to rebuild when language changes
+    ref.watch(languageProvider);
+    final languageNotifier = ref.read(languageProvider.notifier);
+    final locale = languageNotifier.locale;
+    final isRTL = languageNotifier.isRTL;
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       systemNavigationBarColor: LightTheme.primaryColor,
       statusBarColor: LightTheme.primaryColor,
     ));
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      locale: locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('fa', 'IR'),
+      ],
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle(
@@ -64,12 +97,24 @@ class MainApp extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
-            return const HomeScreen();
+            return Directionality(
+              textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+              child: const HomeScreen(),
+            );
           } else {
-            return const AuthScreen();
+            return Directionality(
+              textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+              child: const AuthScreen(),
+            );
           }
         },
       ),
+      builder: (context, child) {
+        return Directionality(
+          textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+          child: child!,
+        );
+      },
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:trendbuy/screens/checkout_screen.dart';
 import 'package:trendbuy/widgets/cart_item.dart';
 import '../providers/cart_products_provider.dart';
 import '../data/product.dart';
+import '../l10n/app_localizations.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -14,7 +15,7 @@ class CartScreen extends ConsumerWidget {
     final cartProducts = ref.watch(cartProductsProvider);
     double totalPrice =
         cartProducts.fold(0, (sum, product) => sum + product.productPrice);
-
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -122,7 +123,7 @@ class CartScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your cart is empty',
+                    l10n?.translate('your cart is empty') ?? 'Your cart is empty',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
