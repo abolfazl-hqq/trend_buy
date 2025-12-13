@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendbuy/my_theme.dart';
+import 'package:trendbuy/screens/checkout_screen.dart';
 import 'package:trendbuy/widgets/cart_item.dart';
 import '../providers/cart_products_provider.dart';
 import '../data/product.dart';
@@ -80,7 +81,7 @@ class CartScreen extends ConsumerWidget {
                         height: 12,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckoutScreen(),)),
                         style: ButtonStyle(
                             shape: WidgetStatePropertyAll(
                               RoundedRectangleBorder(
