@@ -52,8 +52,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: SafeArea(
-          child: Expanded(
-              child: Column(
+          child: Column(
             children: [
               Expanded(
                 flex: 1,
@@ -182,7 +181,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               )
             ],
-          )),
+          ),
         ));
   }
 }
